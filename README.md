@@ -1,0 +1,3 @@
+# Argocd test repo
+
+Nothing to see here really...
