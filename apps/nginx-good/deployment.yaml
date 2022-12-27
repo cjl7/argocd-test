@@ -1,0 +1,38 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment-good
+  labels:
+    app: nginx-good
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-good
+  template:
+    metadata:
+      labels:
+        app: nginx-good
+    spec:
+      containers:
+        - name: nginx-good
+          image: nginxinc/nginx-unprivileged:1.23-alpine
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              cpu: 300m
+              memory: 250Mi
+            requests:
+              cpu: 100m
+              memory: 200Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+      restartPolicy: Never
